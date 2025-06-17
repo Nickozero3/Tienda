@@ -264,7 +264,7 @@ const ListarProductos = () => {
             filteredProductos.map((producto) => (
               <tr key={producto.id}>
                 <td>{producto.id}</td>
-                <td><img src={`${url}${producto.imagen}`} alt={`${producto.nombre}`} /></td>
+                <td><img src={`${url}${producto.imagen}`} alt={`${producto.nombre}`} className="FotoTabla" /></td>
                 <td>
                   <a
                     href={`/seleccionado/${producto.id}-${producto.nombre}`}
