@@ -39,7 +39,6 @@ const ProductCard = memo(({ product }) => {
 
   return (
     <div className="product-card" onClick={handleCardClick}>
-      {console.log(`${url}${product.image}`)}
       <div className="product-image-container">
         {!imageError ? (
           <img

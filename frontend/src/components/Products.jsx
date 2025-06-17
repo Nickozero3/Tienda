@@ -12,7 +12,7 @@ const Productos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 100;
+  const productsPerPage = 10;
 
   const searchTerm = searchParams.get("busqueda") || "";
 
