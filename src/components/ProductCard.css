@@ -1,0 +1,71 @@
+/* Contenedor de botones - 100% responsive */
+.product-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Columnas flexibles */
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0 0.5rem;
+  margin-top: 1rem;
+  box-sizing: border-box;
+  align-items: center; /* Alinea verticalmente los botones */
+}
+
+/* Botones base */
+.product-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.7rem 0.5rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+  min-width: 120px; /* Ancho mínimo para el texto */
+  font-size: clamp(0.8rem, 3vw, 0.9rem); /* Tamaño responsive */
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word; /* Mejor que word-break para palabras largas */
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2; /* Mejor espaciado entre líneas */
+}
+
+/* Efectos hover y active para mejor feedback */
+.product-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.product-button:active {
+  transform: translateY(0);
+}
+
+/* Botón especial para añadir al carrito */
+.product-button.add-to-cart {
+  background-color: #28a745;
+}
+
+/* Precio del producto */
+.product-price {
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  color: #333;
+  margin-top: 0.5rem;
+  align-self: flex-start; /* Anula el centrado horizontal */
+  width: 100%;
+  font-weight: 600; /* Negrita para destacar el precio */
+  padding-left: 0.5rem;
+  /* resto de estilos... */
+}
+
+/* Ajustes para móviles */
+@media (max-width: 480px) {
+  .product-actions {
+    gap: 0.5rem; /* Menor espacio entre botones */
+  }
+  
+  .product-button {
+    padding: 0.6rem 0.3rem; /* Más compacto en móviles */
+    min-width: 100px; /* Ancho mínimo reducido */
+  }
+}

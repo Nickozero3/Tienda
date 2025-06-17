@@ -1,0 +1,167 @@
+/* Añade esto al final de tu archivo CSS */
+.nav-list a,
+.nav-list a:hover,
+.nav-list a:focus,
+.nav-list a:visited {
+  text-decoration: none !important;
+}
+
+.parrafo {
+  font-size: 26px;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  margin-top: auto;
+  font-family: "Qilka", sans-serif;
+  font-weight: 400;
+}
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  gap: 20px;
+}
+
+.app-header {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  background-color: black;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.container {
+  display: flex;
+
+  flex-wrap: wrap;
+  align-content: start;
+}
+
+.item:nth-child(1),
+.item:nth-child(4) {
+  width: 100%;
+  height: 5%;
+}
+
+.item:nth-child(2) {
+  width: 25%;
+  height: 75%;
+}
+
+.item:nth-child(3) {
+  flex-grow: 1;
+  height: 75%;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+.logodiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.logo {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto 10px;
+}
+
+/* Añade estos estilos NUEVOS sin modificar los existentes */
+
+/* Estructura Layout principal (añadir) */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-decoration: none;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.app-footer {
+  background-color: #000;
+  color: white;
+  padding-top: 2.2rem;
+  text-align: center;
+}
+
+/* Estilos específicos para el Nav (añadir) */
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+  text-decoration: none !important;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.nav-list a:hover {
+  color: rgb(110, 51, 248); /* Usa tu color rojo existente */
+}
+
+/* Responsive (añadir) */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 10px;
+  }
+
+  .logo-container {
+    justify-content: flex-start;
+  }
+
+  .nav-list {
+    border-radius: 8px solid #ccc;
+    color: black;
+    padding: 10px;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  .nav-list a {
+    padding: 0.5rem 1rem;
+    display: block;
+    border-bottom: #8d8d8d62 1px solid;
+  }
+}
+
+/* Clases para active link (añadir) */
+.active-link {
+  font-weight: bold;
+  text-decoration: none !important;
+  color: pink; /* Usa tu color rojo existente */
+  /* Mantén tus otros estilos de active-link */
+}
+
+/* Seguridad para imágenes (añadir) */
+.logo-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+
+  color: inherit;
+}

@@ -1,0 +1,215 @@
+/* Estilos generales del contenedor */
+.listar-productos-container {
+  padding: 20px;
+}
+
+/* Estilos para el título */
+.productos-title {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Contenedor principal para buscador y botones */
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+/* Estilos para el buscador */
+.buscador-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  gap: 10px;
+}
+
+.buscador-form {
+  display: flex;
+  flex-grow: 1;
+  gap: 10px;
+}
+
+.buscador-input {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  flex-grow: 1;
+  min-width: 200px;
+  max-width: 45%;
+}
+
+.buscador-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s;
+}
+
+.buscador-button:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para las sugerencias */
+.sugerencias-lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-width: 300px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sugerencia-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.sugerencia-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para el botón de añadir */
+.add-button-container {
+  flex-shrink: 0;
+}
+
+.add-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+.plus-icon {
+  font-size: 1rem;
+}
+
+/* Estilos para la tabla */
+.productos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.productos-table th,
+.productos-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.productos-table th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+/* Estilos para los botones de acción */
+.action-button {
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 2.5% 3.5px;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+}
+
+.edit-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Mensajes */
+.no-products {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+
+
+.close-modal-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.close-modal-button:hover {
+  color: #333;
+}
+
+/* Estilos generales para botones */
+button {
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.2s;
+}
+
+.close-modal-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.close-modal-button:hover {
+  color: #333;
+}
+

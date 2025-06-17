@@ -1,0 +1,211 @@
+/* Nav.css - Versión mejorada para React Router */
+
+/* Estilos base del contenedor principal */
+.main-nav {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+/* Lista de navegación */
+.nav-list {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos de los enlaces */
+.nav-list a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Enlace activo */
+.nav-list a.active-link {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.nav-list a.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #2563eb;
+  transform: scaleX(1);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+/* Efecto hover */
+.nav-list a:not(.active-link):hover {
+  color: #1d4ed8;
+}
+
+/* Botón del menú hamburguesa */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+  position: relative;
+}
+
+/* Líneas del menú hamburguesa */
+.mobile-menu-button svg {
+  font-size: 1.5rem;
+  color: #333;
+  transition: transform 0.3s ease;
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    transition: right 0.3s ease;
+    z-index: 999;
+  }
+
+  .main-nav.active {
+    right: 0;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-list li {
+    width: 100%;
+  }
+
+  .nav-list a {
+    display: block;
+    padding: 15px 0;
+  }
+
+  .nav-list a.active-link::after {
+    display: none;
+  }
+
+  .nav-list a.active-link {
+    background-color: #f0f9ff;
+    padding-left: 10px;
+    border-left: 3px solid #2563eb;
+  }
+
+  /* Desplazamiento del contenido cuando el menú está abierto */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+}
+
+/* Animaciones para el icono del menú */
+.mobile-menu-button[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+
+/* Estilos base del botón móvil */
+.mobile-menu-button {
+  display: none; /* Oculto en desktop */
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+  position: relative;
+}
+
+/* Estilos del menú principal */
+.main-nav {
+  transition: transform 0.3s ease;
+}
+
+.nav-list {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos para móvil */
+@media (max-width: 768px) {
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100vh;
+    transform: translateX(100%);
+    z-index: 1000;
+    padding-top: 4rem;
+  }
+
+  .main-nav.active {
+    transform: translateX(0);
+  }
+
+  .nav-list {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .nav-list a {
+    display: block;
+    padding: 1rem;
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-list a.active-link {
+    color: #00d4ff;
+    font-weight: bold;
+  }
+}
+
+/* Estilos para desktop */
+@media (min-width: 769px) {
+  .main-nav {
+    display: block;
+  }
+
+  .nav-list a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-list a.active-link {
+    color: #00d4ff;
+  }
+}
