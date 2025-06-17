@@ -7,9 +7,8 @@ import { FaPlus } from "react-icons/fa";
 import "./ListaProductos.css";
 
 
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://mohareact-production.up.railway.app'
-  : 'http://localhost:5000';
+const url = process.env.REACT_APP_API_BASE_URL;
+
 
 const ListarProductos = () => {
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ const ListarProductos = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/productos`);
+        const response = await fetch(`${url}/api/productos`);
         const data = await response.json();
         setProductos(data);
         setFilteredProductos(data);
@@ -78,7 +77,7 @@ const ListarProductos = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/productos/${id}`,
+        `${url}/api/productos/${id}`,
         {
           method: "PUT",
           body: formData,
@@ -95,7 +94,6 @@ const ListarProductos = () => {
       }
 
       const result = await response.json();
-      console.log("Respuesta JSON:", result);
 
       // Validación estricta de la respuesta
       if (!result.success || !result.producto) {
@@ -128,7 +126,6 @@ const ListarProductos = () => {
   // Manejar clic en editar
   const handleEditClick = (id) => {
     const producto = productos.find((p) => p.id === Number(id));
-    console.log("handleEditClick - producto encontrado:", producto);
     if (!producto) {
       alert("No se encontró el producto.");
       return;
@@ -256,6 +253,7 @@ const ListarProductos = () => {
         <thead>
           <tr>
             <th>ID</th>
+            <th>Imagen</th>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Acciones</th>
@@ -266,6 +264,7 @@ const ListarProductos = () => {
             filteredProductos.map((producto) => (
               <tr key={producto.id}>
                 <td>{producto.id}</td>
+                <td><img src={`${url}${producto.imagen}`} alt={`${producto.nombre}`} /></td>
                 <td>
                   <a
                     href={`/seleccionado/${producto.id}-${producto.nombre}`}

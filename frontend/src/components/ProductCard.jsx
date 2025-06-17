@@ -1,57 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 import "./ProductCard.css";
-import { useCart } from '../components/Carrito/CartContext'; // Ajusta la ruta según tu estructura
+import { useCart } from '../components/Carrito/CartContext';
 
-
-const ProductCard = ({ product}) => {
+const ProductCard = memo(({ product }) => {
   const [added, setAdded] = useState(false);
   const navigate = useNavigate();
-   const { addToCart } = useCart(); // Destructuración correcta
+  const { addToCart } = useCart();
+  const [imageError, setImageError] = useState(false);
 
-  const isFromAPI = product.image?.includes("/uploads/");
-  const initialSrc = isFromAPI
-    ? `${process.env.PUBLIC_URL}${product.image}`
-    : `${process.env.PUBLIC_URL}/images/${product.image}`;
-
-  const [imageSrc, setImageSrc] = useState(initialSrc);
-  const [fallbackTried, setFallbackTried] = useState(false);
+  const url = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    const isFromAPI = product.image?.includes("/uploads/");
-    const calculatedSrc = isFromAPI
-      ? `${process.env.PUBLIC_URL}${product.image}`
-      : `${process.env.PUBLIC_URL}/images/${product.image}`;
-
-    setFallbackTried(false);
-    setImageSrc(calculatedSrc);
-  }, [product]);
+    if (!product.image) {
+      setImageError(true);
+      return;
+    }
+    setImageError(false);
+  }, [product.image, url]);
 
   const handleImageError = () => {
-    if (!fallbackTried && !isFromAPI) {
-      setImageSrc(`${process.env.PUBLIC_URL}/images/${product.image}`);
-      setFallbackTried(true);
-    } else {
-      setImageSrc(`${process.env.PUBLIC_URL}/images/placeholder.png`);
-    }
+    setImageError(true);
   };
 
   const handleCardClick = (e) => {
-    // Evitar la navegación si el click proviene del botón
     if (!e.target.closest(".product-actions")) {
       navigate(`/seleccionado/${product.id}`);
     }
   };
 
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    addToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1000);
+  };
+
   return (
     <div className="product-card" onClick={handleCardClick}>
+      {console.log(`${url}${product.image}`)}
       <div className="product-image-container">
-        {product.image ? (
+        {!imageError ? (
           <img
-            src={imageSrc}
-            alt={product.name || `Imagen de ${product.id}`}
+            src={`${url}${product.image}`}
+            alt={product.name || `Product ${product.id}`}
             className="product-image"
             onError={handleImageError}
+            loading="lazy"
           />
         ) : (
           <div className="image-placeholder">
@@ -61,24 +57,29 @@ const ProductCard = ({ product}) => {
       </div>
       <div className="product-info">
         <h3>{product.name}</h3>
-        <p className="product-price">${product.price}</p>
+        <p className="product-price">${product.price?.toLocaleString()}</p>
       </div>
 
       <div className="product-actions">
         <button
           className={`product-button add-to-cart ${added ? "added" : ""}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            addToCart(product);
-            setAdded(true);
-            setTimeout(() => setAdded(false), 1000);
-          }}
+          onClick={handleAddToCart}
+          aria-label={added ? "Producto añadido" : "Añadir al carrito"}
         >
           {added ? "✓ Añadido" : "Añadir al carrito"}
         </button>
       </div>
     </div>
   );
+});
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    image: PropTypes.string,
+  }).isRequired,
 };
 
 export default ProductCard;

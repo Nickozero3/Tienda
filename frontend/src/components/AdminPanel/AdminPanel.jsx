@@ -1,4 +1,4 @@
-import ListarProductos from "./ListarProductos";
+import ListaProductos from "./ListarProductos.jsx";
 
 const adminPanel = () => {
     return (
@@ -7,7 +7,7 @@ const adminPanel = () => {
             <h1 className="titulo">Panel de Administración de Productos</h1>
 
         </div>
-            <ListarProductos />
+            <ListaProductos />
         
        </div>
     );
