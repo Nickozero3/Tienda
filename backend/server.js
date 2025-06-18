@@ -16,9 +16,21 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Configuración de CORS para permitir solicitudes desde cualquier origen
+const allowedOrigins = [
+  "http://localhost:3000",     // dev local
+  "https://tiendanicko-production.up.railway.app/productos",
+  "https://tiendanicko-production.up.railway.app",     // producción (ajustá según tu dominio)
+];
+
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
