@@ -6,9 +6,7 @@ import ModalEditarProducto from "../Hud/EditarProducto";
 import { FaPlus } from "react-icons/fa";
 import "./ListaProductos.css";
 
-
-const url = process.env.REACT_APP_API_BASE_URL;
-
+const url = process.env.REACT_APP_API_BASE_URL; // URL base del backend desde archivo .env
 
 const ListarProductos = () => {
   const navigate = useNavigate();
@@ -21,7 +19,7 @@ const ListarProductos = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Obtener productos iniciales
+  // Obtener productos desde la API al cargar el componente
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -38,22 +36,17 @@ const ListarProductos = () => {
     fetchProductos();
   }, []);
 
+  // Bloquea el scroll cuando hay un modal abierto
   useEffect(() => {
-    if (showModal || showEditModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
+    document.body.style.overflow = showModal || showEditModal ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [showModal, showEditModal]);
 
-  // Eliminar producto
+  // Eliminar un producto desde la API y actualizar el estado
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Estás seguro de eliminar este producto?")) return;
-
     try {
       await deleteProducto(id);
       setProductos((prev) => prev.filter((p) => p.id !== id));
@@ -65,47 +58,24 @@ const ListarProductos = () => {
     }
   };
 
-  // Modificar producto (PUT)// Función modificarProducto actualizada
+  // Modificar producto en el backend y actualizar el estado local
   const modificarProducto = async (id, formData) => {
-    console.log(`Iniciando modificación para producto ID: ${id}`);
-
     try {
-      // Verificar contenido de FormData
-      console.log("Contenido de FormData:");
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
+      const response = await fetch(`${url}/api/productos/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
 
-      const response = await fetch(
-        `${url}/api/productos/${id}`,
-        {
-          method: "PUT",
-          body: formData,
-        }
-      );
-
-      console.log("Respuesta recibida, status:", response.status);
-
-      // Manejar casos donde la respuesta no es JSON
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Error del servidor:", errorText);
         throw new Error(errorText || `Error ${response.status}`);
       }
 
       const result = await response.json();
-
-      // Validación estricta de la respuesta
       if (!result.success || !result.producto) {
-        console.error("Respuesta inválida:", result);
-        throw new Error(
-          result.error || "La respuesta no contiene el producto actualizado"
-        );
+        throw new Error(result.error || "Producto no actualizado");
       }
 
-      console.log("Producto actualizado recibido:", result.producto);
-
-      // Actualizar estado
       setProductos((prev) =>
         prev.map((p) => (p.id === result.producto.id ? result.producto : p))
       );
@@ -115,15 +85,12 @@ const ListarProductos = () => {
 
       return result.producto;
     } catch (error) {
-      console.error("Error en modificarProducto:", {
-        message: error.message,
-        stack: error.stack,
-      });
+      console.error("Error en modificarProducto:", error);
       throw error;
     }
   };
 
-  // Manejar clic en editar
+  // Cuando se clickea el botón de editar, abre el modal con el producto seleccionado
   const handleEditClick = (id) => {
     const producto = productos.find((p) => p.id === Number(id));
     if (!producto) {
@@ -132,10 +99,9 @@ const ListarProductos = () => {
     }
     setSelectedProduct(producto);
     setShowEditModal(true);
-    // console.log("showEditModal seteado a true");
   };
 
-  // Sugerencias y filtro de productos
+  // Filtro y sugerencias al buscar productos
   useEffect(() => {
     if (searchTerm.trim().length === 0) {
       setSuggestions([]);
@@ -144,15 +110,18 @@ const ListarProductos = () => {
     }
 
     const term = searchTerm.toLowerCase();
-    const filtered = productos.filter(
-      (p) =>
-        p.nombre.toLowerCase().includes(term) || p.id.toString().includes(term)
-    );
+
+    const filtered = productos.filter((p) => {
+      const nombreMatch = p.nombre?.toLowerCase().includes(term);
+      const idMatch = p.id?.toString().includes(term);
+      return nombreMatch || idMatch;
+    });
 
     setSuggestions(filtered.slice(0, 5));
     setFilteredProductos(filtered);
   }, [searchTerm, productos]);
 
+  // Buscar producto y redirigir con el término
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim()) {
@@ -160,16 +129,18 @@ const ListarProductos = () => {
     }
   };
 
+  // Al hacer clic en una sugerencia
   const handleSuggestionClick = (product) => {
     setSearchTerm(product.nombre);
     setSuggestions([]);
     setFilteredProductos(
       productos.filter((p) =>
-        p.nombre.toLowerCase().includes(product.nombre.toLowerCase())
+        p.nombre?.toLowerCase().includes(product.nombre.toLowerCase())
       )
     );
   };
 
+  // Agregar nuevo producto al listado
   const handleProductAdded = (newProduct) => {
     setProductos((prev) => [...prev, newProduct]);
     setFilteredProductos((prev) => [...prev, newProduct]);
@@ -182,7 +153,7 @@ const ListarProductos = () => {
     <div className="listar-productos-container">
       <h2 className="productos-title">Listado de Productos</h2>
 
-      {/* Barra de búsqueda */}
+      {/* Buscador de productos */}
       <div className="buscador-container">
         <form onSubmit={handleSearch} className="buscador-form">
           <input
@@ -197,7 +168,7 @@ const ListarProductos = () => {
           </button>
         </form>
 
-        {/* Botón añadir producto */}
+        {/* Botón para añadir productos */}
         <div className="add-button-container">
           <button onClick={() => setShowModal(true)} className="add-button">
             <FaPlus className="plus-icon" />
@@ -205,7 +176,7 @@ const ListarProductos = () => {
           </button>
         </div>
 
-        {/* Sugerencias */}
+        {/* Lista de sugerencias */}
         {suggestions.length > 0 && (
           <ul className="sugerencias-lista">
             {suggestions.map((product) => (
@@ -221,7 +192,7 @@ const ListarProductos = () => {
         )}
       </div>
 
-      {/* Modal añadir producto */}
+      {/* Modal para crear producto */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -239,7 +210,7 @@ const ListarProductos = () => {
         </div>
       )}
 
-      {/* Modal editar producto */}
+      {/* Modal para editar producto */}
       {showEditModal && selectedProduct && (
         <ModalEditarProducto
           producto={selectedProduct}
@@ -248,7 +219,7 @@ const ListarProductos = () => {
         />
       )}
 
-      {/* Tabla productos */}
+      {/* Tabla de productos */}
       <table className="productos-table">
         <thead>
           <tr>
@@ -264,11 +235,15 @@ const ListarProductos = () => {
             filteredProductos.map((producto) => (
               <tr key={producto.id}>
                 <td>{producto.id}</td>
-                <td><img src={`${url}${producto.imagen}`} alt={`${producto.nombre}`} className="FotoTabla" /></td>
                 <td>
-                  <a
-                    href={`/seleccionado/${producto.id}-${producto.nombre}`}
-                  >
+                  <img
+                    src={`${url}${producto.imagen}`}
+                    alt={producto.nombre || "Producto sin nombre"}
+                    className="FotoTabla"
+                  />
+                </td>
+                <td>
+                  <a href={`/seleccionado/${producto.id}-${producto.nombre}`}>
                     {producto.nombre}
                   </a>
                 </td>
@@ -291,7 +266,7 @@ const ListarProductos = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="4" className="no-products">
+              <td colSpan="5" className="no-products">
                 {searchTerm
                   ? "No se encontraron productos"
                   : "No hay productos registrados"}

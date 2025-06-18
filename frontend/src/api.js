@@ -1,9 +1,10 @@
 // src/api.js
 import axios from "axios";
 
+const url = process.env.REACT_APP_API_BASE_URL; // Asegúrate de que la URL incluya http:// o https://
 
 export const API_CONFIG = {
-  BASE_URL: "http://localhost:5000",  // Asegúrate de incluir http://
+  BASE_URL: url,  // Asegúrate de incluir http://
   TIMEOUT: 15000,
   DEFAULT_HEADERS: {
     "Content-Type": "application/json",
