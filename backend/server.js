@@ -37,7 +37,11 @@ app.use(
 );
 
 // Configuración para servir archivos estáticos desde la carpeta 'uploads'
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
+    setHeaders: (res, _path) => {
+      res.setHeader("Access-Control-Allow-Origin", "*"); // o el origen de tu frontend
+    }
+}));
 
 /**
  * ============================================
