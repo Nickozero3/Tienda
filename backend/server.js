@@ -78,9 +78,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   connectTimeout: 10000,
-  ssl: process.env.NODE_ENV === "production" 
-    ? { rejectUnauthorized: true } 
-    : false,
+  ssl:  { rejectUnauthorized: false } 
 });
 
 /**
