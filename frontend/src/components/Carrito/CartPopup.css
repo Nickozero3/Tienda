@@ -107,7 +107,7 @@
   align-items: center;
 }
 
-.item-image {
+.item-imagen {
   width: 70px;
   height: 70px;
   object-fit: cover;
@@ -245,8 +245,9 @@ input, textarea, select, button {
     padding: 1rem 0;
   }
 
-  .item-image {
+  .item-imagen{
     width: 60px;
+    max-width: 50pxl;
     height: 60px;
   }
 
@@ -282,7 +283,7 @@ input, textarea, select, button {
     padding: 0.8rem 0;
   }
 
-  .item-image {
+  .item-imagen {
     width: 40px;
     height: 40px;
   }

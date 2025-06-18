@@ -1,7 +1,9 @@
 import { useCart } from "./CartContext";
 import { useEffect, useRef } from "react";
+import "./CartPopup.css";
 
-const url = process.env.REACT_APP_API_BASE_URL
+
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const CartPopup = () => {
   const {
@@ -22,29 +24,32 @@ const CartPopup = () => {
       return;
     }
 
-    // Crear mensaje estructurado
     let mensaje = " -- Pedido desde ***** Web --\n\n";
     mensaje += "Detalle del carrito: \n\n";
 
     cartItems.forEach((item) => {
+      const cantidad = Number(item.quantity) || 0;
+      const precio = Number(item.precio) || 0;
+      const subtotal = (precio * cantidad).toFixed(2);
+
       mensaje += `  ${item.nombre}\n`;
-      mensaje += `   Cantidad: ${item.quantity}\n`;
-      mensaje += `   Precio unitario: $${item.precio.toFixed(2)}\n`;
-      mensaje += `   Subtotal: $${(item.precio * item.quantity).toFixed(2)}\n\n`;
+      mensaje += `   Cantidad: ${cantidad}\n`;
+      mensaje += `   Precio unitario: $${precio}\n`;
+      mensaje += `   Subtotal: $${subtotal}\n\n`;
     });
 
-    mensaje += `💰 *Total a pagar: $${totalPrice.toFixed(2)}*\n\n`;
+    const total = Number(totalPrice) || 0;
+
+    mensaje += `💰 *Total a pagar: $${total.toFixed(2)}*\n\n`;
     mensaje += "Comunicarme disponibilidad y métodos de pago.";
 
-    // Codificar y abrir WhatsApp
-    const telefono = "5493548554840"; // Código de país + número
+    const telefono = "5493548554840";
     window.open(
       `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`,
       "_blank"
     );
   };
 
-  // Cerrar al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -84,51 +89,57 @@ const CartPopup = () => {
           ) : (
             <>
               <div className="items-list">
-                {cartItems.map((item) => (
-                  <div key={item.id} className="cart-item">
-                    <img
-                      src={`${url}${item.imagen}`}
-                      alt={item.nombre}
-                      className="item-image"
-                    />
-                    <div className="item-details">
-                      <h4>{item.nombre}</h4>
-                      <div className="quantity-controls">
+                {cartItems.map((item) => {
+                  const cantidad = Number(item.quantity) || 0;
+                  const precio = Number(item.price) || 0;
+                  const subtotal = (precio * cantidad).toFixed(2);
+
+                  return (
+                    <div key={item.id} className="cart-item">
+                      <img
+                        src={`${url}${item.image}`}
+                        alt={item.name}
+                        className="item-imagen"
+                      />
+                      <div className="item-details">
+                        <h4>{item.name}</h4>
+                        <div className="quantity-controls">
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, cantidad - 1)
+                            }
+                            disabled={cantidad <= 1}
+                          >
+                            -
+                          </button>
+                          <span>{cantidad}</span>
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, cantidad + 1)
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="item-price">
+                        ${subtotal}
                         <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                          disabled={item.quantity <= 1}
+                          onClick={() => removeFromCart(item.id)}
+                          className="remove-btn"
                         >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                        >
-                          +
+                          Eliminar
                         </button>
                       </div>
                     </div>
-                    <div className="item-price">
-                      ${(item.precio * item.quantity).toFixed(2)}
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="remove-btn"
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-
+              
               <div className="cart-summary">
                 <div className="summary-row total">
                   <span>Total:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>${(Number(totalPrice) || 0).toFixed(2)}</span>
                 </div>
                 <button
                   className="checkout-btn whatsapp-btn"
