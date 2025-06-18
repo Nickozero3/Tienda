@@ -1,6 +1,8 @@
 import { useCart } from "./CartContext";
 import { useEffect, useRef } from "react";
 
+const url = process.env.REACT_APP_API_BASE_URL
+
 const CartPopup = () => {
   const {
     cartItems,
@@ -25,10 +27,10 @@ const CartPopup = () => {
     mensaje += "Detalle del carrito: \n\n";
 
     cartItems.forEach((item) => {
-      mensaje += `  ${item.name}\n`;
+      mensaje += `  ${item.nombre}\n`;
       mensaje += `   Cantidad: ${item.quantity}\n`;
-      mensaje += `   Precio unitario: $${item.price.toFixed(2)}\n`;
-      mensaje += `   Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+      mensaje += `   Precio unitario: $${item.precio.toFixed(2)}\n`;
+      mensaje += `   Subtotal: $${(item.precio * item.quantity).toFixed(2)}\n\n`;
     });
 
     mensaje += `💰 *Total a pagar: $${totalPrice.toFixed(2)}*\n\n`;
@@ -85,18 +87,12 @@ const CartPopup = () => {
                 {cartItems.map((item) => (
                   <div key={item.id} className="cart-item">
                     <img
-                      src={
-                        item.image
-                          ? `/images/${item.image}` // Si existe item.image
-                          : item.imagen
-                          ? `/uploads/${item.imagen}` // Si existe item.imagen (nota: ruta diferente)
-                          : "/images/placeholder.png" // Imagen por defecto
-                      }
-                      alt={item.name}
+                      src={`${url}${item.imagen}`}
+                      alt={item.nombre}
                       className="item-image"
                     />
                     <div className="item-details">
-                      <h4>{item.name}</h4>
+                      <h4>{item.nombre}</h4>
                       <div className="quantity-controls">
                         <button
                           onClick={() =>
@@ -117,7 +113,7 @@ const CartPopup = () => {
                       </div>
                     </div>
                     <div className="item-price">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ${(item.precio * item.quantity).toFixed(2)}
                       <button
                         onClick={() => removeFromCart(item.id)}
                         className="remove-btn"

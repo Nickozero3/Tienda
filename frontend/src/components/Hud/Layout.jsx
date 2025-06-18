@@ -34,8 +34,8 @@ const Layout = () => {
         <div className="logo-container">
           <Link to={"/"}>
             <div className="logodiv">
-              <img src="./apple.svg" alt="Logo" className="logo" />
-              <p className="parrafo">****</p>
+              <img src={`${process.env.PUBLIC_URL}/favicon.ico`} alt="Logo" className="logo" />
+              <p className="parrafo">TiendaNicko</p>
             </div>
           </Link>
         </div>
@@ -50,7 +50,7 @@ const Layout = () => {
       <CartPopup /> {/* Popup global del carrito */}
       <WhatsappButton />
       <footer className="app-footer">
-        © {new Date().getFullYear()} Cellstore - Todos los derechos reservados
+        © {new Date().getFullYear()} TiendaNicko - Todos los derechos reservados
         <p>
           <b>AV EDEN 144, LA FALDA, CORDOBA</b>
         </p>

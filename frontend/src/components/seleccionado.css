@@ -67,8 +67,6 @@
 }
 
 .producto-imagen-container img {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
   max-height: 350px;
 }
@@ -138,4 +136,23 @@
   padding: 3rem;
   font-size: 1.2rem;
   color: #666;
+}
+
+
+.producto-descripcion-texto {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  text-align: justify;
+  font-weight: bold;
+}
+
+.producto-descripcion-texto p{
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 1rem;
+  line-height: 1.5;
+  text-align: justify;
+  padding: 0rem 1rem;
 }

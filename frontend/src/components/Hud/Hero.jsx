@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Hud/Hero.css';
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Hero = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,7 +17,7 @@ const Hero = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/productos');
+        const response = await fetch( `${url}/api/productos`);
         if (!response.ok) {
           throw new Error('Error al obtener productos');
         }
@@ -82,7 +84,7 @@ const Hero = () => {
               >
                 <div className="suggestion-image-container">
                   <img 
-                    src={product.imagen}
+                    src={`${url}${product.imagen}`}
                     alt={product.nombre}
                     onError={handleImageError}
                   />

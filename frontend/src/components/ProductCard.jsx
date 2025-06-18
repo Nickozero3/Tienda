@@ -5,9 +5,10 @@ import "./ProductCard.css";
 import { useCart } from '../components/Carrito/CartContext';
 
 const ProductCard = memo(({ product }) => {
-  const [added, setAdded] = useState(false);
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
+
   const [imageError, setImageError] = useState(false);
 
   const url = process.env.REACT_APP_API_BASE_URL;
