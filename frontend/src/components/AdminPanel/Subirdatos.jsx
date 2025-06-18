@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './Subirdatos.css';
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
+
 const SubirDatos = ({ onClose, onSuccess }) => {
   const [producto, setProducto] = useState({
     nombre: '',
@@ -63,7 +66,7 @@ const SubirDatos = ({ onClose, onSuccess }) => {
       formData.append('subcategoria', producto.subcategoria);
       formData.append('imagen', producto.imagen, producto.imagen.name);
 
-      const response = await fetch('http://localhost:5000/api/productos', {
+      const response = await fetch(`${url}/api/productos`, {
         method: 'POST',
         body: formData
       });
