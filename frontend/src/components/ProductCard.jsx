@@ -50,8 +50,8 @@ const ProductCard = memo(({ product }) => {
             loading="lazy"
           />
         ) : (
-          <div className="image-placeholder">
-            <span>Imagen no disponible</span>
+          <div className="product-image">
+            <img src="/images/placeholder.png" alt="Imagen no disponible" />
           </div>
         )}
       </div>

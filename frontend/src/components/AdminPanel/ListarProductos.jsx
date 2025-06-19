@@ -25,7 +25,8 @@ const ListarProductos = () => {
       try {
         const response = await fetch(`${url}/api/productos`);
         const data = await response.json();
-        setProductos(data);
+        const invertidos = data.reverse()
+        setProductos((invertidos));
         setFilteredProductos(data);
       } catch (error) {
         console.error("Error:", error);

@@ -1,25 +1,24 @@
-/* Estilos generales del contenedor */
+/* === ESTILOS BASE === */
+
 .listar-productos-container {
   padding: 20px;
 }
 
-/* Estilos para el título */
 .productos-title {
   margin-bottom: 20px;
   color: #333;
   font-size: 1.5rem;
 }
 
-/* Contenedor principal para buscador y botones */
 .search-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
-/* Estilos para el buscador */
 .buscador-container {
   position: relative;
   display: flex;
@@ -32,6 +31,7 @@
   display: flex;
   flex-grow: 1;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .buscador-input {
@@ -58,7 +58,6 @@
   background-color: #45a049;
 }
 
-/* Estilos para las sugerencias */
 .sugerencias-lista {
   position: absolute;
   top: 100%;
@@ -86,7 +85,6 @@
   background-color: #f5f5f5;
 }
 
-/* Estilos para el botón de añadir */
 .add-button-container {
   flex-shrink: 0;
 }
@@ -113,7 +111,6 @@
   font-size: 1rem;
 }
 
-/* Estilos para la tabla */
 .productos-table {
   width: 100%;
   border-collapse: collapse;
@@ -132,7 +129,6 @@
   font-weight: 600;
 }
 
-/* Estilos para los botones de acción */
 .action-button {
   border: none;
   padding: 8px 15px;
@@ -157,14 +153,7 @@
   color: white;
 }
 
-/* Mensajes */
-.no-products {
-  text-align: center;
-  padding: 30px;
-  color: #666;
-  font-size: 1.1rem;
-}
-
+.no-products,
 .loading-message {
   text-align: center;
   padding: 30px;
@@ -172,8 +161,6 @@
   font-size: 1.1rem;
 }
 
-
-
 .close-modal-button {
   position: absolute;
   top: 15px;
@@ -190,30 +177,71 @@
   color: #333;
 }
 
-/* Estilos generales para botones */
 button {
   cursor: pointer;
   padding: 10px 15px;
   transition: all 0.2s;
 }
 
-.close-modal-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #666;
-  transition: color 0.2s;
-}
-
-.close-modal-button:hover {
-  color: #333;
-}
-
 .FotoTabla {
   max-width: 100px;
   max-height: 100px;
+}
+
+/* === RESPONSIVE PARA CELULAR (Tarjetas) === */
+@media (max-width: 768px) {
+  .productos-table,
+  .productos-table thead,
+  .productos-table tbody,
+  .productos-table th,
+  .productos-table td,
+  .productos-table tr {
+    display: block;
+  }
+
+  .productos-table thead {
+    display: none;
+  }
+
+  .productos-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+  }
+
+  .productos-table td {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .productos-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #555;
+  }
+
+  .productos-table td:last-child {
+    border-bottom: none;
+  }
+
+  .buscador-form,
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .buscador-button,
+  .add-button {
+    width: 100%;
+    justify-content: center;
+  }
 }

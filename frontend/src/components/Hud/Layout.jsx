@@ -5,6 +5,7 @@ import "./Layout.css";
 import WhatsappButton from "./wppButton";
 import CartIcon from "../Carrito/CartIcon"; // Asegúrate de que la ruta sea correcta
 import CartPopup from "../Carrito/CartPopup"; // Asegúrate de que la ruta sea correcta
+import { Flip } from "react-awesome-reveal";
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +35,13 @@ const Layout = () => {
         <div className="logo-container">
           <Link to={"/"}>
             <div className="logodiv">
-              <img src={`${process.env.PUBLIC_URL}/favicon.ico`} alt="Logo" className="logo" />
+              <Flip>
+                <img
+                  src={`${process.env.PUBLIC_URL}/favicon.ico`}
+                  alt="Logo"
+                  className="logo"
+                />
+              </Flip>
               <p className="parrafo">TiendaNicko</p>
             </div>
           </Link>

@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../Hud/Hero.css';
-import {Slide, Fade} from "react-awesome-reveal"
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./SearchBar.css"; // Asegúrate de crear este archivo CSS
 
-const url = process.env.REACT_APP_API_BASE_URL;
-
-const Hero = () => {
+const SearchBar = ({ apiUrl, placeholder = "Buscar..." }) => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
@@ -18,26 +15,30 @@ const Hero = () => {
       }
 
       try {
-        const response = await fetch( `${url}/api/productos`);
+        const response = await fetch(
+          apiUrl || `${process.env.REACT_APP_API_BASE_URL}/api/productos`
+        );
         if (!response.ok) {
-          throw new Error('Error al obtener productos');
+          throw new Error("Error al obtener productos");
         }
 
         const products = await response.json();
         const filtered = products
-          .filter(p => p.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
+          .filter((p) =>
+            p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+          )
           .slice(0, 4);
 
         setSuggestions(filtered);
       } catch (error) {
-        console.error('Error:', error.message);
-        setSuggestions([]); // Return empty array instead of mock data
+        console.error("Error:", error.message);
+        setSuggestions([]);
       }
     };
 
     const debounceTimer = setTimeout(fetchProducts, 300);
     return () => clearTimeout(debounceTimer);
-  }, [searchTerm]);
+  }, [searchTerm, apiUrl]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -57,47 +58,43 @@ const Hero = () => {
   };
 
   return (
-    <section className="hero">
-      <h1><Slide duration={1500}>Descubrí los mejores dispositivos</Slide></h1>
-      <p><Fade delay={1e3} duration={1500}direction='left'>Celulares de última generación, calidad y precio imbatible</Fade></p>
-      
-      <form className="search-container" onSubmit={handleSearch} autoComplete="off">
+    <div className="search-bar-container">
+      <form className="search-form" onSubmit={handleSearch} autoComplete="off">
         <div className="search-input-wrapper">
           <input
             type="text"
-            id="searchInput"
-            placeholder="Buscar dispositivo..."
+            placeholder={placeholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="btn-cta" type="submit">
-            Ver productos
+          <button className="search-button" type="submit">
+            Buscar
           </button>
         </div>
-        
+
         {suggestions.length > 0 && (
-          <div className="suggestions-container">
+          <div className="suggestions-dropdown">
             {suggestions.map((product) => (
-              <div 
-                key={product.id} 
+              <div
+                key={product.id}
                 className="suggestion-item"
                 onClick={() => handleSuggestionClick(product)}
               >
-                <div className="suggestion-image-container">
-                  <img 
-                    src={`${url}${product.imagen}`}
+                <div className="suggestion-image">
+                  <img
+                    src={`${process.env.REACT_APP_API_BASE_URL}${product.imagen}`}
                     alt={product.nombre}
                     onError={handleImageError}
                   />
                 </div>
-                <span className="suggestion-name">{product.nombre}</span>
+                <span className="suggestion-text">{product.nombre}</span>
               </div>
             ))}
           </div>
         )}
       </form>
-    </section>
+    </div>
   );
 };
 
-export default Hero;
+export default SearchBar;
