@@ -29,10 +29,10 @@ const CartPopup = () => {
 
     cartItems.forEach((item) => {
       const cantidad = Number(item.quantity) || 0;
-      const precio = Number(item.precio) || 0;
-      const subtotal = (precio * cantidad).toFixed(2);
+      const precio = Number(item.price) || 0;
+      const subtotal = (item.price * cantidad).toFixed(2);
 
-      mensaje += `  ${item.nombre}\n`;
+      mensaje += `  ${item.name}\n`;
       mensaje += `   Cantidad: ${cantidad}\n`;
       mensaje += `   Precio unitario: $${precio}\n`;
       mensaje += `   Subtotal: $${subtotal}\n\n`;
@@ -91,7 +91,7 @@ const CartPopup = () => {
               <div className="items-list">
                 {cartItems.map((item) => {
                   const cantidad = Number(item.quantity) || 0;
-                  const precio = Number(item.price) || 0;
+                  const precio = item.price;
                   const subtotal = (precio * cantidad).toFixed(2);
 
                   return (
@@ -139,7 +139,7 @@ const CartPopup = () => {
               <div className="cart-summary">
                 <div className="summary-row total">
                   <span>Total:</span>
-                  <span>${(Number(totalPrice) || 0).toFixed(2)}</span>
+                  <span>${totalPrice}</span>
                 </div>
                 <button
                   className="checkout-btn whatsapp-btn"
