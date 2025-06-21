@@ -92,6 +92,7 @@ app.use(
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log("📦 Guardando en:", uploadsPath);
     cb(null, uploadsPath);
   },
   filename: (req, file, cb) => {
