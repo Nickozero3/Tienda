@@ -11,6 +11,8 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.10.0",
+    "fuse.js": "^7.1.0",
+    "nouislider": "^15.8.1",
     "react": "^19.1.0",
     "react-awesome-reveal": "^4.3.1",
     "react-dom": "^19.1.0",

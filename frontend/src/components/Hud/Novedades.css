@@ -64,16 +64,6 @@ x
   }
 
 }
- .products-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 1rem;
-    justify-content: center;
-    margin-bottom: 10px;
-    margin: auto 5px;
-  }
-
 
   .product-card {
     background: white;

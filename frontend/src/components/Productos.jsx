@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import Fuse from "fuse.js";
 import { getProductos } from "../api";
 import ProductCard from "./ProductCard";
-import "./Products.css";
+import "./Productos.css";
 import FiltroCategorias from "./Hud/FiltroCategoria";
 
 const Productos = () => {
-  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);  
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filtrosActivos, setFiltrosActivos] = useState({
@@ -16,17 +15,20 @@ const Productos = () => {
     precioMin: "",
     precioMax: "",
   });
+  const [productosFiltrados, setProductosFiltrados] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const productsPerPage = 10;
-  const searchTerm = searchParams.get("busqueda") || "";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const apiResponse = await getProductos();
+        const productos = apiResponse.data || [];
 
-        if (apiResponse.data?.length > 0) {
-          setProducts(apiResponse.data);
+        if (productos.length > 0) {
+          const inverted = [...productos].reverse();
+          setProducts(inverted);
         } else {
           throw new Error("No se encontraron productos disponibles");
         }
@@ -42,28 +44,44 @@ const Productos = () => {
     fetchData();
   }, []);
 
-  // Aplicar filtros
-  const productosFiltrados = products.filter((product) => {
-    const nombre = String(product.nombre || "").toLowerCase();
-    const coincideBusqueda =
-      searchTerm === "" || nombre.includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    if (products.length === 0) {
+      setProductosFiltrados([]);
+      return;
+    }
 
-    const claveCategoria = `${product.categoria}-${product.subcategoria}`;
-    const coincideCategoria =
-      filtrosActivos.filtrosSeleccionados.length === 0 ||
-      filtrosActivos.filtrosSeleccionados.includes(claveCategoria);
+    const fuseOptions = {
+      keys: ["nombre", "descripcion"],
+      threshold: 0.3,
+    };
 
-    const precio = Number(product.precio || 0);
-    const min = filtrosActivos.precioMin ? Number(filtrosActivos.precioMin) : 0;
-    const max = filtrosActivos.precioMax
-      ? Number(filtrosActivos.precioMax)
-      : Infinity;
-    const coincidePrecio = precio >= min && precio <= max;
+    let resultadosBusqueda = products;
 
-    return coincideBusqueda && coincideCategoria && coincidePrecio;
-  });
+    if (searchTerm.trim() !== "") {
+      const fuse = new Fuse(products, fuseOptions);
+      resultadosBusqueda = fuse.search(searchTerm).map((r) => r.item);
+    }
 
-  // Calcular productos para la página actual
+    const productosFiltradosTemp = resultadosBusqueda.filter((product) => {
+      const claveCategoria = `${product.categoria}-${product.subcategoria}`;
+      const coincideCategoria =
+        filtrosActivos.filtrosSeleccionados.length === 0 ||
+        filtrosActivos.filtrosSeleccionados.includes(claveCategoria);
+
+      const precio = Number(product.precio || 0);
+      const min = filtrosActivos.precioMin ? Number(filtrosActivos.precioMin) : 0;
+      const max = filtrosActivos.precioMax
+        ? Number(filtrosActivos.precioMax)
+        : Infinity;
+      const coincidePrecio = precio >= min && precio <= max;
+
+      return coincideCategoria && coincidePrecio;
+    });
+
+    setProductosFiltrados(productosFiltradosTemp);
+    setCurrentPage(1);
+  }, [products, searchTerm, filtrosActivos]);
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = productosFiltrados.slice(
@@ -71,7 +89,6 @@ const Productos = () => {
     indexOfLastProduct
   );
 
-  // Cambiar página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
@@ -87,9 +104,43 @@ const Productos = () => {
     <main className="product-page">
       {error && <div className="alert alert-info">{error}</div>}
 
-      <h1>
-        {searchTerm ? `Resultados para: "${searchTerm}"` : "Nuestros Productos"}
-      </h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginBottom: "1rem",
+          flexWrap: "wrap",
+        }}
+      >
+        <h1
+          style={{
+            flexShrink: 0,
+            width: "500px", // ancho fijo para que no cambie con el texto
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            margin: 0,
+          }}
+        >
+          Nuestros Productos
+        </h1>
+
+        <input
+          className="buscador"
+          type="text"
+          placeholder="Buscar productos..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: "0.5rem",
+            width: "calc(100% - 320px)", // ancho restante para el input
+            maxWidth: "400px",
+            minWidth: "200px",
+            boxSizing: "border-box",
+          }}
+        />
+      </div>
 
       <div className="product-layout">
         <div className="filters-sidebar">
@@ -119,7 +170,6 @@ const Productos = () => {
                 ))}
               </div>
 
-              {/* Paginación */}
               <div className="pagination">
                 {Array.from(
                   {

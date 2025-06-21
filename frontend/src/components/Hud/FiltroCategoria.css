@@ -1,33 +1,46 @@
-/* -------- ESTILOS BASE (DESKTOP) -------- */
+/* =========================================
+   FILTROS – ESTILOS BASE (DESKTOP)
+========================================= */
 .filtros-container {
   font-family: Arial, sans-serif;
+  margin-left: 5px;
+  margin-top: 1.5rem;
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 8px;
   width: 300px;
-  position: sticky;
+  position: static;
   top: 20px;
   height: fit-content;
   overflow-y: auto;
   transition: transform 0.3s ease;
+  z-index: auto;
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.boton-filtros-mobile,.cerrar-filtros-mobile{
+.boton-filtros-mobile,
+.cerrar-filtros-mobile {
   display: none;
 }
 
-/* -------- TABLETS (768px a 1024px) -------- */
+/* =========================================
+   FILTROS – TABLETS (768px a 1024px)
+========================================= */
 @media (max-width: 1024px) {
   .filtros-container {
     width: 250px;
   }
 }
 
-/* -------- MÓVILES -------- */
+/* =========================================
+   FILTROS – MOBILE
+========================================= */
 @media (max-width: 768px) {
   .filtros-container {
     position: fixed;
-    inset: 0; /* top: 0; right: 0; bottom: 0; left: 0; */
+    inset: 0;
     left: -105%;
     width: 93%;
     z-index: 1002;
@@ -36,7 +49,7 @@
     border-radius: 0;
     overflow-y: auto;
     margin-bottom: 0 !important;
-    padding-bottom: 80px; /* espacio para el botón flotante de WhatsApp */
+    padding-bottom: 80px;
   }
 
   .filtros-container.abierto {
@@ -86,20 +99,17 @@
     color: red;
     z-index: 1003;
   }
-
-  .buscar-input {
-    max-width: 80%;
-  }
 }
 
-
-/* -------- ESTILOS COMUNES -------- */
+/* =========================================
+   ESTILOS COMUNES
+========================================= */
 .buscar-container {
   margin-bottom: 20px;
 }
 
 .buscar-input {
-  width: 100%;
+  width: 90%;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -159,10 +169,42 @@
   font-size: 14px;
 }
 
+/* =========================================
+   CHECKBOX PERSONALIZADO
+========================================= */
 .subcategorias input[type="checkbox"] {
-  margin-right: 8px;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #495057;
+  border-radius: 4px;
+  margin-right: 10px;
+  position: relative;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.2s ease;
 }
 
+.subcategorias input[type="checkbox"]:checked {
+  background-color: #495057;
+  border-color: #495057;
+}
+
+.subcategorias input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* =========================================
+   SLIDER DE PRECIO
+========================================= */
 .filtro-precio {
   margin-top: 20px;
 }
@@ -177,12 +219,14 @@
   font-size: 14px;
   margin-bottom: 15px;
   color: #555;
+  justify-content: center;
+  display: flex;
 }
 
 .price-slider-container {
   position: relative;
   height: 40px;
-  margin: 20px 0;
+  margin: 20px 25px;
 }
 
 .price-slider {
@@ -243,15 +287,18 @@
   z-index: 2;
 }
 
-/* -------- RESET BUTTON -------- */
+/* =========================================
+   BOTÓN RESETEAR FILTROS
+========================================= */
 .reset-filters-btn {
   width: 100%;
-  background-color: #f8f9fa;
-  color: #dc3545;
-  border: 1px solid #dc3545;
-  border-radius: 4px;
+  background-color: #fff;
+  color: #495057;
+  border: 2px solid #495057;
+  border-radius: 6px;
   padding: 10px 15px;
   font-size: 14px;
+  font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -259,10 +306,11 @@
   gap: 8px;
   transition: all 0.3s ease;
   margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .reset-filters-btn:hover {
-  background-color: #dc3545;
+  background-color: #495057;
   color: white;
 }
 
@@ -273,4 +321,11 @@
 
 .reset-filters-btn:hover .reset-icon {
   transform: rotate(180deg);
+}
+
+/* =========================================
+   EXTRA
+========================================= */
+.noui-slider-wrapper {
+  margin: 1rem 0;
 }

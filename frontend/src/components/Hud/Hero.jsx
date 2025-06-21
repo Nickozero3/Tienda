@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Hud/Hero.css';
-import {Slide, Fade} from "react-awesome-reveal"
+import { Slide, Fade } from "react-awesome-reveal"
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -18,7 +18,7 @@ const Hero = () => {
       }
 
       try {
-        const response = await fetch( `${url}/api/productos`);
+        const response = await fetch(`${url}/api/productos`);
         if (!response.ok) {
           throw new Error('Error al obtener productos');
         }
@@ -59,8 +59,8 @@ const Hero = () => {
   return (
     <section className="hero">
       <h1><Slide duration={1500}>Descubrí los mejores dispositivos</Slide></h1>
-      <p><Fade delay={1e3} duration={1500}direction='left'>Celulares de última generación, calidad y precio imbatible</Fade></p>
-      
+      <div><Fade delay={1e3} duration={1500} direction='left'><p>Celulares de última generación, calidad y precio imbatible</p></Fade></div>
+
       <form className="search-container" onSubmit={handleSearch} autoComplete="off">
         <div className="search-input-wrapper">
           <input
@@ -74,17 +74,17 @@ const Hero = () => {
             Ver productos
           </button>
         </div>
-        
+
         {suggestions.length > 0 && (
           <div className="suggestions-container">
             {suggestions.map((product) => (
-              <div 
-                key={product.id} 
+              <div
+                key={product.id}
                 className="suggestion-item"
                 onClick={() => handleSuggestionClick(product)}
               >
                 <div className="suggestion-image-container">
-                  <img 
+                  <img
                     src={`${url}${product.imagen}`}
                     alt={product.nombre}
                     onError={handleImageError}
