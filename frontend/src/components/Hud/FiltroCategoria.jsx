@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import noUiSlider from "nouislider";
 import "nouislider/dist/nouislider.css";
 import "./FiltroCategoria.css";
@@ -20,6 +20,14 @@ const FiltroCategorias = ({ onFiltroChange }) => {
   const [precioMax, setPrecioMax] = useState(10000);
   const [categoriasAbiertas, setCategoriasAbiertas] = useState({});
   const sliderRef = useRef(null);
+
+  const notificarCambio = useCallback((filtros, min, max) => {
+    onFiltroChange?.({
+      filtrosSeleccionados: filtros,
+      precioMin: min,
+      precioMax: max,
+    });
+  }, [onFiltroChange]);
 
   useEffect(() => {
     if (sliderRef.current && !sliderRef.current.noUiSlider) {
@@ -45,7 +53,7 @@ const FiltroCategorias = ({ onFiltroChange }) => {
         notificarCambio(seleccionados, min, max);
       });
     }
-  }, [sliderRef]);
+  }, [notificarCambio, seleccionados]);
 
   const toggleMenu = () => setMenuAbierto(!menuAbierto);
 
@@ -77,21 +85,12 @@ const FiltroCategorias = ({ onFiltroChange }) => {
     notificarCambio([], 0, 10000);
   };
 
-  const notificarCambio = (filtros, min, max) => {
-    onFiltroChange?.({
-      filtrosSeleccionados: filtros,
-      precioMin: min,
-      precioMax: max,
-    });
-  };
-
   return (
     <>
       <button className="boton-filtros-mobile" onClick={toggleMenu}>☰</button>
       <div className={`filtros-overlay ${menuAbierto ? 'visible' : ''}`} onClick={toggleMenu} />
       <div className={`filtros-container ${menuAbierto ? 'abierto' : ''}`}>
         <button className="cerrar-filtros-mobile" onClick={toggleMenu}>×</button>
-
 
         <div className="filtro-bloque">
           <h4>Todas las categorías</h4>
@@ -143,4 +142,3 @@ const FiltroCategorias = ({ onFiltroChange }) => {
 };
 
 export default FiltroCategorias;
-
