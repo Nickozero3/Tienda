@@ -38,10 +38,51 @@ app.use(
 
 // Configuración para servir archivos estáticos desde la carpeta 'uploads'
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
-    setHeaders: (res, _path) => {
-      res.setHeader("Access-Control-Allow-Origin", "*"); // o el origen de tu frontend
-    }
+  setHeaders: (res, _path) => {
+    res.setHeader("Access-Control-Allow-Origin", "*"); // o el origen de tu frontend
+  }
 }));
+
+/**
+ * ============================================
+ * DETERMINAR LA CARPETA DE SUBIDA DE ARCHIVOS
+ * ============================================
+ */
+
+// Candidatos a carpeta de uploads
+const posiblesRutas = [
+  "/app/uploads", // Railway con volumen montado
+  path.join(__dirname, "uploads"), // Local
+];
+
+// Buscar la primera ruta que exista o pueda crearse
+let uploadsPath = posiblesRutas.find((ruta) => {
+  try {
+    if (!fs.existsSync(ruta)) {
+      fs.mkdirSync(ruta, { recursive: true });
+    }
+    return fs.existsSync(ruta);
+  } catch (err) {
+    return false;
+  }
+});
+
+// Si no se encontró ninguna válida, lanzar error
+if (!uploadsPath) {
+  throw new Error("No se pudo crear una carpeta de uploads válida.");
+}
+
+console.log("📁 Carpeta de uploads:", uploadsPath);
+
+// Servir archivos estáticos desde la carpeta válida
+app.use(
+  "/uploads",
+  express.static(uploadsPath, {
+    setHeaders: (res, _path) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+    },
+  })
+);
 
 /**
  * ============================================
@@ -49,18 +90,11 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
  * ============================================
  */
 
-// Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadsPath = path.join(__dirname, "uploads");
-    // Crear directorio si no existe
-    if (!fs.existsSync(uploadsPath)) {
-      fs.mkdirSync(uploadsPath, { recursive: true });
-    }
     cb(null, uploadsPath);
   },
   filename: (req, file, cb) => {
-    // Sanitizar el nombre del archivo y añadir timestamp
     const safeName = file.originalname
       .replace(/\s+/g, "_")
       .replace(/[^\w.-]/gi, "");
@@ -69,7 +103,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Filtro para aceptar solo ciertos tipos de imágenes
 const fileFilter = (req, file, cb) => {
   const allowed = ["image/jpeg", "image/png", "image/webp"];
   if (allowed.includes(file.mimetype)) cb(null, true);
@@ -77,6 +110,22 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage, fileFilter });
+
+/**
+ * ============================================
+ * ENDPOINT DE PRUEBA PARA SUBIR UNA IMAGEN
+ * ============================================
+ */
+
+app.post("/subir", upload.single("imagen"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No se subió ninguna imagen" });
+  }
+  res.json({
+    mensaje: "Imagen subida correctamente",
+    url: `/uploads/${req.file.filename}`,
+  });
+});
 
 /**
  * ============================================
@@ -94,7 +143,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   connectTimeout: 10000,
-  ssl:  { rejectUnauthorized: false } 
+  ssl: { rejectUnauthorized: false }
 });
 
 /**
@@ -126,7 +175,7 @@ const checkDBConnection = async () => {
 async function cleanUnusedImages() {
   try {
     console.log("🔍 Iniciando limpieza de imágenes...");
-    
+
     // Obtener imágenes usadas en la base de datos
     const [products] = await pool.query(
       "SELECT imagen FROM productos WHERE imagen IS NOT NULL"
@@ -285,7 +334,7 @@ app.put("/api/productos/:id", upload.single("imagen"), async (req, res) => {
     });
   } catch (error) {
     console.error("Error al actualizar producto:", error);
-    
+
     // Limpiar archivo temporal en caso de error
     if (req.file) {
       const tempPath = path.join(__dirname, "uploads", req.file.filename);
