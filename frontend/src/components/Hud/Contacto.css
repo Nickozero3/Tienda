@@ -57,6 +57,10 @@
   margin-top: 1.5rem;
 }
 
+.mapa iframe{
+  border: 0;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .contacto-item {

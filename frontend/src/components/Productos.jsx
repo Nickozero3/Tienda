@@ -7,7 +7,7 @@ import FiltroCategorias from "./Hud/FiltroCategoria";
 
 const Productos = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);  
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filtrosActivos, setFiltrosActivos] = useState({
@@ -60,6 +60,29 @@ const Productos = () => {
     if (searchTerm.trim() !== "") {
       const fuse = new Fuse(products, fuseOptions);
       resultadosBusqueda = fuse.search(searchTerm).map((r) => r.item);
+
+      // Solo ordenar por número si el término de búsqueda NO tiene un número
+      if (!/\d/.test(searchTerm)) {
+        resultadosBusqueda.sort((a, b) => {
+          const numA = extraerNumeroModelo(a.nombre);
+          const numB = extraerNumeroModelo(b.nombre);
+
+          if (numA !== null && numB !== null) return numB - numA;
+          if (numA !== null) return -1;
+          if (numB !== null) return 1;
+          return 0;
+        });
+      }
+    }
+
+    // Extrae el número más alto en el nombre del producto (por ejemplo: 15 de 'iPhone 15 Pro Max')
+    function extraerNumeroModelo(nombre) {
+      const numeros = nombre.match(/\d{1,4}/g); // Busca todos los números de 1 a 4 dígitos
+      if (!numeros) return null;
+
+      // Convertimos todos los encontrados en números y devolvemos el más grande
+      const max = Math.max(...numeros.map((n) => parseInt(n)));
+      return isNaN(max) ? null : max;
     }
 
     const productosFiltradosTemp = resultadosBusqueda.filter((product) => {
@@ -69,7 +92,9 @@ const Productos = () => {
         filtrosActivos.filtrosSeleccionados.includes(claveCategoria);
 
       const precio = Number(product.precio || 0);
-      const min = filtrosActivos.precioMin ? Number(filtrosActivos.precioMin) : 0;
+      const min = filtrosActivos.precioMin
+        ? Number(filtrosActivos.precioMin)
+        : 0;
       const max = filtrosActivos.precioMax
         ? Number(filtrosActivos.precioMax)
         : Infinity;

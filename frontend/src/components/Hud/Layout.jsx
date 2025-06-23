@@ -59,7 +59,7 @@ const Layout = () => {
       <footer className="app-footer">
         © {new Date().getFullYear()} TiendaNicko - Todos los derechos reservados
         <p>
-          <b>AV EDEN 144, LA FALDA, CORDOBA</b>
+          <b>Local, LA FALDA, CORDOBA</b>
         </p>
         <p>
           <b>
