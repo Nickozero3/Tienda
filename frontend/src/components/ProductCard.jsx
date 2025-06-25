@@ -8,9 +8,7 @@ const ProductCard = memo(({ product }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
-
   const [imageError, setImageError] = useState(false);
-
   const url = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
@@ -55,9 +53,30 @@ const ProductCard = memo(({ product }) => {
           </div>
         )}
       </div>
+
       <div className="product-info">
-        <h3>{product.name}</h3>
-        <p className="product-price">${product.price?.toLocaleString()}</p>
+        <h3 className="product-title">{product.name}</h3>
+        {product.specs && <p className="product-specs">{product.specs}</p>}
+        
+        <div className="product-pricing">
+          {product.originalPrice && (
+            <span className="original-price">{product.originalPrice}</span>
+          )}
+          <span className="current-price">${product.price?.toLocaleString()}</span>
+          {product.discount && (
+            <span className="discount-badge">{product.discount} OFF</span>
+          )}
+        </div>
+
+        {product.installment && (
+          <p className="installment">{product.installment}</p>
+        )}
+        
+        {product.shipping && (
+          <p className="shipping">
+            Envío <strong>{product.shipping}</strong>
+          </p>
+        )}
       </div>
 
       <div className="product-actions">
@@ -77,7 +96,12 @@ ProductCard.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string,
+    specs: PropTypes.string,
     price: PropTypes.number,
+    originalPrice: PropTypes.string,
+    discount: PropTypes.string,
+    installment: PropTypes.string,
+    shipping: PropTypes.string,
     image: PropTypes.string,
   }).isRequired,
 };

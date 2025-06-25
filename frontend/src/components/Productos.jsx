@@ -131,21 +131,14 @@ const Productos = () => {
 
       <div
         style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          marginBottom: "1rem",
-          flexWrap: "wrap",
         }}
       >
         <h1
           style={{
             flexShrink: 0,
-            width: "500px", // ancho fijo para que no cambie con el texto
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            margin: 0,
           }}
         >
           Nuestros Productos

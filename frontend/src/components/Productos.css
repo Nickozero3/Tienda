@@ -6,42 +6,75 @@
   margin-left: 25px;
 }
 
+/* Estilo base de la tarjeta (para móvil) */
 .product-card {
   background: #fff;
   overflow: hidden;
   border-radius: 12px;
-  padding: 1.2rem;
+  padding: 1rem;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
-  text-align: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
   width: 100%;
-  max-width: 260px;
-  min-height: 320px;
   margin: 0 auto;
   box-sizing: border-box;
   transition: box-shadow 0.3s ease;
+  text-align: left;
 }
 
+/* Estilo para desktop */
+@media (min-width: 768px) {
+  .product-card {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    max-width: 260px;
+    min-height: 320px;
+    padding: 1.2rem;
+    justify-content: space-between;
+  }
+}
+
+/* Imagen - común para ambos */
+.product-card img {
+  object-fit: contain;
+  border-radius: 6px;
+  transition: transform 0.3s ease-in-out;
+  will-change: transform;
+}
+
+/* Tamaño imagen móvil */
+.product-card img {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+/* Tamaño imagen desktop */
+@media (min-width: 768px) {
+  .product-card img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Contenedor de información */
+.product-info {
+  flex: 1;
+}
+
+/* Efectos hover */
 .product-card:hover {
   box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.product-card img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  border-radius: 6px;
-  transition: transform 3s ease-in-out;
-  will-change: transform;
-}
-
 .product-card:hover img {
-  transform: scale(1.3);
+  transform: scale(1.1);
 }
 
+/* Fallback para imágenes */
 .image-error {
   width: 100%;
   height: 200px;
@@ -54,7 +87,7 @@
   border-radius: 8px;
 }
 
-.pagination-container,
+/* Paginación */
 .pagination {
   display: flex;
   justify-content: center;
@@ -63,7 +96,6 @@
   gap: 8px;
 }
 
-.pagination-button,
 .pagination button {
   padding: 6px 12px;
   border: 1px solid #ddd;
@@ -73,25 +105,16 @@
   transition: background 0.3s;
 }
 
-.pagination-button:hover:not(:disabled),
 .pagination button:hover {
   background-color: #e9ecef;
 }
 
-.pagination-button.active,
 .pagination button.active {
   background-color: #007bff;
   color: white;
   border-color: #007bff;
 }
 
-.pagination-button:disabled,
-.pagination button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination-info,
 .page-info {
   text-align: center;
   margin-bottom: 20px;
@@ -99,23 +122,24 @@
   font-size: 0.9rem;
 }
 
+/* Layout principal */
 .product-layout {
   display: flex;
   gap: 24px;
-  flex-wrap: wrap; /* para que sea responsive y los hijos bajen de línea si no entran */
+  flex-wrap: wrap;
 }
 
 .filters-sidebar {
-  width: 280px; /* ancho fijo para sidebar */
+  width: 280px;
   position: sticky;
   top: 20px;
   align-self: flex-start;
-  flex-shrink: 0; /* que no se reduzca en pantallas pequeñas */
+  flex-shrink: 0;
 }
 
 .products-content {
   flex: 1 1 0;
-  min-width: 300px; /* para que no se achique demasiado */
+  min-width: 300px;
 }
 
 /* Responsive para móviles */
@@ -135,13 +159,15 @@
   .products-container {
     margin-left: 0;
     padding: 1rem 0;
+    grid-template-columns: 1fr; /* Una columna en móvil */
   }
 }
 
-/* Buscador - estilo para que quede responsive */
+/* Buscador */
 .buscador {
   margin-left: 10px;
   max-width: 400px;
   width: 100%;
   box-sizing: border-box;
+  padding: 0.5rem;
 }
