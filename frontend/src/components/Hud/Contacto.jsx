@@ -43,6 +43,7 @@ const Contacto = () => {
 
       <div className="mapa">
         <iframe
+          title="Mapa del Local"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d54664.566485551586!2d-64.53817468315489!3d-31.09484784919342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x942d82540a7563cd%3A0x63c72e7d55a0ee1e!2sLa%20Falda%2C%20C%C3%B3rdoba!5e0!3m2!1ses!2sar!4v1750719526822!5m2!1ses!2sar"
           width="600"
           height="450"
