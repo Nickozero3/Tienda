@@ -3,21 +3,13 @@
 ========================================= */
 .filtros-container {
   font-family: Arial, sans-serif;
-  margin-left: 1rem;
-  margin-top: 1.5rem;
   padding: 15px;
-  background-color: #f8f9fa;
   border-radius: 8px;
-  width: 300px;
-  position: static;
-  top: 20px;
+  width: 200px;
   height: fit-content;
-  overflow-y: auto;
-  transition: transform 0.3s ease;
-  z-index: auto;
-  transform: none;
-  opacity: 1;
-  pointer-events: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  margin-right: 20px;
 }
 
 .boton-filtros-mobile,
@@ -30,12 +22,13 @@
 ========================================= */
 @media (max-width: 1024px) {
   .filtros-container {
-    width: 250px;
+    width: 220px;
+    padding: 12px;
   }
 }
 
 /* =========================================
-   FILTROS – MOBILE
+   FILTROS – MOBILE (COMPLETO - SIN CAMBIOS)
 ========================================= */
 @media (max-width: 768px) {
   .filtros-container {
@@ -50,6 +43,9 @@
     overflow-y: auto;
     margin-bottom: 0 !important;
     padding-bottom: 80px;
+    background-color: white;
+    top: 0;
+    height: 100vh;
   }
 
   .filtros-container.abierto {
@@ -102,42 +98,43 @@
 }
 
 /* =========================================
-   ESTILOS COMUNES
+   ESTILOS COMUNES MEJORADOS
 ========================================= */
-.buscar-container {
-  margin-bottom: 20px;
-}
-
-.buscar-input {
-  width: 90%;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
 .filtro-bloque {
   margin-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.filtro-bloque:last-child {
+  border-bottom: none;
 }
 
 .filtro-bloque h4 {
   margin: 0 0 10px 0;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px 0;
 }
 
 .categoria-titulo {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  padding: 6px 0;
+  transition: all 0.2s ease;
+}
+
+.categoria-titulo:hover {
+  color: #007bff;
 }
 
 .flecha {
   transition: transform 0.2s ease;
-  font-size: 12px;
+  font-size: 10px;
+  color: #666;
 }
 
 .flecha.abierta {
@@ -150,7 +147,7 @@
   margin: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease;
+  transition: max-height 0.3s ease;
 }
 
 .subcategorias.visible {
@@ -158,8 +155,8 @@
 }
 
 .subcategorias li {
-  margin-bottom: 5px;
-  padding-left: 15px;
+  margin-bottom: 8px;
+  padding-left: 5px;
 }
 
 .subcategorias label {
@@ -167,16 +164,22 @@
   align-items: center;
   cursor: pointer;
   font-size: 14px;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.subcategorias label:hover {
+  color: #007bff;
 }
 
 /* =========================================
-   CHECKBOX PERSONALIZADO
+   CHECKBOX PERSONALIZADO MEJORADO
 ========================================= */
 .subcategorias input[type="checkbox"] {
   appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #495057;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
   border-radius: 4px;
   margin-right: 10px;
   position: relative;
@@ -186,115 +189,97 @@
 }
 
 .subcategorias input[type="checkbox"]:checked {
-  background-color: #495057;
-  border-color: #495057;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .subcategorias input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
-  top: 2px;
-  left: 5px;
+  top: 1px;
+  left: 4px;
   width: 4px;
-  height: 9px;
+  height: 8px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
 /* =========================================
-   SLIDER DE PRECIO
+   SLIDER DE PRECIO MEJORADO
 ========================================= */
 .filtro-precio {
   margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .filtro-precio h4 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  font-weight: bold;
+  margin: 0 0 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
 }
 
 .precio-rango {
   font-size: 14px;
   margin-bottom: 15px;
   color: #555;
-  justify-content: center;
   display: flex;
+  justify-content: center;
+  font-weight: 500;
 }
 
 .price-slider-container {
   position: relative;
   height: 40px;
-  margin: 20px 25px;
+  margin: 20px 15px;
 }
 
-.price-slider {
-  position: relative;
-  width: 100%;
+.noUi-target {
+  background: #f0f0f0;
+  border-radius: 4px;
+  border: none;
+  box-shadow: none;
 }
 
-.price-slider input[type="range"] {
-  position: absolute;
-  width: 100%;
-  pointer-events: none;
-  -webkit-appearance: none;
-  height: 4px;
-  background: transparent;
-  outline: none;
+.noUi-connect {
+  background: #007bff;
 }
 
-.price-slider input[type="range"]::-webkit-slider-thumb,
-.price-slider input[type="range"]::-moz-range-thumb {
-  pointer-events: all;
+.noUi-handle {
   width: 18px;
   height: 18px;
+  top: -7px;
+  right: -9px;
   border-radius: 50%;
-  border: 2px solid #fff;
   background: #007bff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  -webkit-appearance: none;
 }
 
-.price-slider::before {
-  content: "";
-  position: absolute;
-  height: 4px;
-  width: 100%;
-  background: #ddd;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 2px;
+.noUi-handle:before, 
+.noUi-handle:after {
+  display: none;
 }
 
-.price-slider::after {
-  content: "";
-  position: absolute;
-  height: 4px;
-  background: #007bff;
-  top: 50%;
-  transform: translateY(-50%);
-  left: calc(var(--min) * 1%);
-  right: calc(100% - var(--max) * 1%);
-  border-radius: 2px;
-}
-
-.min-slider {
-  z-index: 1;
-}
-
-.max-slider {
-  z-index: 2;
+.noUi-tooltip {
+  background: #333;
+  color: white;
+  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 3px;
 }
 
 /* =========================================
-   BOTÓN RESETEAR FILTROS
+   BOTÓN RESETEAR FILTROS MEJORADO
 ========================================= */
 .reset-filters-btn {
   width: 100%;
   background-color: #fff;
-  color: #495057;
-  border: 2px solid #495057;
+  color: #ff3b30;
+  border: 2px solid #ff3b30;
   border-radius: 6px;
   padding: 10px 15px;
   font-size: 14px;
@@ -306,11 +291,10 @@
   gap: 8px;
   transition: all 0.3s ease;
   margin-top: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .reset-filters-btn:hover {
-  background-color: #495057;
+  background-color: #ff3b30;
   color: white;
 }
 
@@ -324,8 +308,14 @@
 }
 
 /* =========================================
-   EXTRA
+   ESTILOS ESPECÍFICOS PARA INTEGRACIÓN
 ========================================= */
-.noui-slider-wrapper {
-  margin: 1rem 0;
+@media (min-width: 769px) {
+  .filtros-container {
+    /* Asegura que el sticky funcione correctamente */
+    align-self: flex-start;
+    position: sticky;
+    top: 20px;
+    margin-bottom: 20px;
+  }
 }

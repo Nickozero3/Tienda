@@ -4,7 +4,7 @@ import axios from "axios";
 const url = process.env.REACT_APP_API_BASE_URL; // Asegúrate de que la URL incluya http:// o https://
 
 export const API_CONFIG = {
-  BASE_URL: url,  // Asegúrate de incluir http://
+  BASE_URL: url, // Asegúrate de incluir http://
   TIMEOUT: 15000,
   DEFAULT_HEADERS: {
     "Content-Type": "application/json",
@@ -18,23 +18,22 @@ const axiosInstance = axios.create({
   withCredentials: false,
   // Configuración adicional para estabilidad
   maxRedirects: 0,
-
 });
 
 // Interceptor mejorado
 axiosInstance.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     const errorDetails = {
       message: error.message,
       code: error.code,
       config: {
         url: error.config?.url,
-        method: error.config?.method
+        method: error.config?.method,
       },
-      response: error.response?.data
+      response: error.response?.data,
     };
-    console.error('Error en la petición:', errorDetails);
+    console.error("Error en la petición:", errorDetails);
     return Promise.reject(error);
   }
 );
@@ -90,3 +89,20 @@ export const getProductosBySubcategoria = (categoria, subcategoria) =>
   axiosInstance.get(
     `/api/productos/categoria/${categoria}/subcategoria/${subcategoria}`
   );
+
+// Auth functions
+export const login = async (credentials) => {
+  const response = await fetch(`${API_CONFIG.baseURL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
+  return response.json();
+};
+
+export const verifyToken = async (token) => {
+  const response = await fetch(`${API_CONFIG.baseURL}/auth/verify`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.json();
+};

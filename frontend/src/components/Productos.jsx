@@ -61,7 +61,6 @@ const Productos = () => {
       const fuse = new Fuse(products, fuseOptions);
       resultadosBusqueda = fuse.search(searchTerm).map((r) => r.item);
 
-      // Solo ordenar por número si el término de búsqueda NO tiene un número
       if (!/\d/.test(searchTerm)) {
         resultadosBusqueda.sort((a, b) => {
           const numA = extraerNumeroModelo(a.nombre);
@@ -75,12 +74,9 @@ const Productos = () => {
       }
     }
 
-    // Extrae el número más alto en el nombre del producto (por ejemplo: 15 de 'iPhone 15 Pro Max')
     function extraerNumeroModelo(nombre) {
-      const numeros = nombre.match(/\d{1,4}/g); // Busca todos los números de 1 a 4 dígitos
+      const numeros = nombre.match(/\d{1,4}/g);
       if (!numeros) return null;
-
-      // Convertimos todos los encontrados en números y devolvemos el más grande
       const max = Math.max(...numeros.map((n) => parseInt(n)));
       return isNaN(max) ? null : max;
     }
@@ -92,12 +88,8 @@ const Productos = () => {
         filtrosActivos.filtrosSeleccionados.includes(claveCategoria);
 
       const precio = Number(product.precio || 0);
-      const min = filtrosActivos.precioMin
-        ? Number(filtrosActivos.precioMin)
-        : 0;
-      const max = filtrosActivos.precioMax
-        ? Number(filtrosActivos.precioMax)
-        : Infinity;
+      const min = filtrosActivos.precioMin ? Number(filtrosActivos.precioMin) : 0;
+      const max = filtrosActivos.precioMax ? Number(filtrosActivos.precioMax) : Infinity;
       const coincidePrecio = precio >= min && precio <= max;
 
       return coincideCategoria && coincidePrecio;
@@ -129,43 +121,27 @@ const Productos = () => {
     <main className="product-page">
       {error && <div className="alert alert-info">{error}</div>}
 
-      <div
-        style={{
-        }}
-      >
-        <h1
-          style={{
-            flexShrink: 0,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          Nuestros Productos
-        </h1>
-
+      {/* Header con buscador */}
+      <div className="search-header">
+        <h1>Nuestros Productos</h1>
         <input
           className="buscador"
           type="text"
           placeholder="Buscar productos..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: "0.5rem",
-            width: "calc(100% - 320px)", // ancho restante para el input
-            maxWidth: "400px",
-            minWidth: "200px",
-            boxSizing: "border-box",
-          }}
         />
       </div>
 
-      <div className="product-layout">
-        <div className="filters-sidebar">
+      {/* Contenedor principal */}
+      <div className="main-container">
+        {/* Sidebar de filtros */}
+        <aside className="filters-sidebar">
           <FiltroCategorias onFiltroChange={setFiltrosActivos} />
-        </div>
+        </aside>
 
-        <div className="products-content">
+        {/* Contenido de productos */}
+        <section className="products-section">
           {productosFiltrados.length === 0 ? (
             <div className="no-results">
               <p>No se encontraron productos.</p>
@@ -173,7 +149,7 @@ const Productos = () => {
             </div>
           ) : (
             <>
-              <div className="products-container">
+              <div className="products-grid">
                 {currentProducts.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -188,33 +164,30 @@ const Productos = () => {
                 ))}
               </div>
 
-              <div className="pagination">
-                {Array.from(
-                  {
-                    length: Math.ceil(
-                      productosFiltrados.length / productsPerPage
-                    ),
-                  },
-                  (_, i) => (
-                    <button
-                      key={i + 1}
-                      onClick={() => paginate(i + 1)}
-                      className={currentPage === i + 1 ? "active" : ""}
-                    >
-                      {i + 1}
-                    </button>
-                  )
-                )}
-              </div>
-
-              <div className="page-info">
-                Mostrando {indexOfFirstProduct + 1}-
-                {Math.min(indexOfLastProduct, productosFiltrados.length)} de{" "}
-                {productosFiltrados.length} productos
+              <div className="pagination-container">
+                <div className="pagination">
+                  {Array.from(
+                    { length: Math.ceil(productosFiltrados.length / productsPerPage) },
+                    (_, i) => (
+                      <button
+                        key={i + 1}
+                        onClick={() => paginate(i + 1)}
+                        className={currentPage === i + 1 ? "active" : ""}
+                      >
+                        {i + 1}
+                      </button>
+                    )
+                  )}
+                </div>
+                <div className="page-info">
+                  Mostrando {indexOfFirstProduct + 1}-
+                  {Math.min(indexOfLastProduct, productosFiltrados.length)} de{" "}
+                  {productosFiltrados.length} productos
+                </div>
               </div>
             </>
           )}
-        </div>
+        </section>
       </div>
     </main>
   );

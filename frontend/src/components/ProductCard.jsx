@@ -38,6 +38,8 @@ const ProductCard = memo(({ product }) => {
 
   return (
     <div className="product-card" onClick={handleCardClick}>
+      <span className="label-oferta">OFERTAS</span>
+
       <div className="product-image-container">
         {!imageError ? (
           <img
@@ -56,6 +58,8 @@ const ProductCard = memo(({ product }) => {
 
       <div className="product-info">
         <h3 className="product-title">{product.name}</h3>
+        <p className="label-disponible">DISPONIBLE</p>
+
         {product.specs && <p className="product-specs">{product.specs}</p>}
         
         <div className="product-pricing">
