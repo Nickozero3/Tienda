@@ -87,7 +87,7 @@ const FiltroCategorias = ({ onFiltroChange }) => {
 
   return (
     <>
-      <button className="boton-filtros-mobile" onClick={toggleMenu}>☰</button>
+      <button className="boton-filtros-mobile" onClick={toggleMenu}>Filtros</button>
       <div className={`filtros-overlay ${menuAbierto ? 'visible' : ''}`} onClick={toggleMenu} />
       <div className={`filtros-container ${menuAbierto ? 'abierto' : ''}`}>
         <button className="cerrar-filtros-mobile" onClick={toggleMenu}>×</button>
