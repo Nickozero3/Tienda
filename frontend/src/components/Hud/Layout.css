@@ -32,7 +32,12 @@
   background-color: black;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 20px;
+  padding: 20px 0;
+  position: sticky;
+  top: 0; /* Esto es esencial para el sticky */
+  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional para mejor visualización */
 }
 
 .container {

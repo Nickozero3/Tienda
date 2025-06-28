@@ -6,24 +6,29 @@
 .nov {
   color: #000000;
   background-color: #8686862d;
-  display: block;
+  display: grid;
   font-size: 30px;
   font-weight: bold;
   padding: 1rem;
   margin-bottom: 1rem;
   padding-left: 30px;
-  text-align: left; /* Cambiado de center a left */
+  text-align: left;
+  /* Cambiado de center a left */
 }
 
 #product-container {
   display: flex;
-  flex-wrap: nowrap; /* Cambiado de wrap a nowrap para evitar saltos de línea */
-  overflow-x: auto; /* Permite scroll horizontal cuando hay muchos productos */
+  flex-wrap: nowrap;
+  /* Cambiado de wrap a nowrap para evitar saltos de línea */
+  overflow-x: auto;
+  /* Permite scroll horizontal cuando hay muchos productos */
   gap: 1.5rem;
   padding: 20px;
-  scrollbar-width: thin; /* Para navegadores modernos */
+  scrollbar-width: thin;
+  /* Para navegadores modernos */
   scrollbar-color: #888 #f1f1f1;
-  -webkit-overflow-scrolling: touch; /* Mejor scrolling en iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Mejor scrolling en iOS */
 }
 
 /* Estilos para la barra de scroll */
@@ -50,11 +55,13 @@
   padding: 1rem;
   text-align: center;
   border-radius: 8px;
-  min-width: 250px; /* Cambiado de max-width a min-width */
+  min-width: 250px;
+  /* Cambiado de max-width a min-width */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: white;
   transition: transform 0.3s;
-  flex: 0 0 auto; /* Evita que las tarjetas se estiren o encojan */
+  flex: 0 0 auto;
+  /* Evita que las tarjetas se estiren o encojan */
 }
 
 .product-card:hover {
@@ -87,7 +94,11 @@
   }
 
   .product-card {
-    min-width: 200px;
+    width: 100%;
+    max-width: 90%;
+    /* Ocupa todo el ancho disponible */
+    margin: 0 auto;
+    /* Centrado horizontal */
   }
 }
 
@@ -106,13 +117,19 @@
 /* Contenedor principal de productos */
 .products-container {
   display: flex;
-  flex-wrap: wrap; /* Evita que los productos se envuelvan a otra línea */
-  overflow-x: auto; /* Permite scroll horizontal */
-  gap: 15px; /* Espacio entre productos */
+  flex-wrap: wrap;
+  /* Evita que los productos se envuelvan a otra línea */
+  overflow-x: auto;
+  /* Permite scroll horizontal */
+  gap: 15px;
+  /* Espacio entre productos */
   padding: 15px;
-  scrollbar-width: thin; /* Para Firefox */
+  scrollbar-width: thin;
+  /* Para Firefox */
   scrollbar-color: #888 #f1f1f1;
-  -webkit-overflow-scrolling: touch; /* Mejor scroll en dispositivos táctiles */
-  align-items: flex-start; /* Alinea las tarjetas en la parte superior */
-  justify-content: space-between;
+  -webkit-overflow-scrolling: touch;
+  /* Mejor scroll en dispositivos táctiles */
+  align-items: flex-start;
+  /* Alinea las tarjetas en la parte superior */
+  justify-content: space-around;
 }

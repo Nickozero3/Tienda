@@ -96,6 +96,18 @@ const FiltroCategorias = ({ onFiltroChange }) => {
           <h4>Todas las categorías</h4>
         </div>
 
+        <div className="filtro-precio">
+          <h4 className="filtro-titulo">Precio</h4>
+          <div className="precio-rango">
+            <span className="precio-minimo">${precioMin.toLocaleString("es-AR")}</span>
+            <span className="separador"> – </span>
+            <span className="precio-maximo">${precioMax.toLocaleString("es-AR")}</span>
+          </div>
+          <div className="price-slider-container">
+            <div ref={sliderRef} className="noui-slider-wrapper" />
+          </div>
+        </div>
+
         {Object.entries(categorias).map(([categoria, subcategorias]) => (
           <div key={categoria} className="filtro-bloque">
             <h4 onClick={() => toggleCategoria(categoria)} className="categoria-titulo">
@@ -123,15 +135,6 @@ const FiltroCategorias = ({ onFiltroChange }) => {
           </div>
         ))}
 
-        <div className="filtro-precio">
-          <h4>Precio</h4>
-          <div className="precio-rango">
-            ${precioMin.toLocaleString("es-AR")} – ${precioMax.toLocaleString("es-AR")}
-          </div>
-          <div className="price-slider-container">
-            <div ref={sliderRef} className="noui-slider-wrapper" />
-          </div>
-        </div>
 
         <button className="reset-filters-btn" onClick={resetFilters}>
           <span className="reset-icon">↻</span> Resetear Filtros
